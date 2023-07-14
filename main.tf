@@ -39,7 +39,7 @@ resource "aws_mskconnect_connector" "connector" {
 
       vpc {
         security_groups = data.aws_security_groups.msk_sg.ids
-        subnets         = data.aws_subnets.public.ids
+        subnets         = data.aws_subnets.private.ids
       }
     }
   }
@@ -65,6 +65,7 @@ resource "aws_mskconnect_connector" "connector" {
         enabled   = true
         log_group = aws_cloudwatch_log_group.connector.id
       }
+      ##hier vlt s3 hinzufügen für die logs?
     }
   }
 
@@ -72,13 +73,15 @@ resource "aws_mskconnect_connector" "connector" {
 }
 
 resource "aws_mskconnect_custom_plugin" "connector_install" {
+  # depends_on = [aws_s3_object.connector_distribution]
   name         = var.connector_name
   description  = var.connector_description
   content_type = upper(var.distribution_content_type)
   location {
     s3 {
       bucket_arn = aws_s3_bucket.distributions.arn
-      file_key   = aws_s3_object.connector_distribution.key
+      #file_key   = aws_s3_object.connector_distribution.key
+      file_key = "s3sink/10.5.1.zip"
     }
   }
 }

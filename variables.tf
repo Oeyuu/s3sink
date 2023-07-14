@@ -1,5 +1,6 @@
 variable "connector_name" {
   type    = string
+  default = "s3sink"
 }
 
 variable "connector_description" {
@@ -9,22 +10,37 @@ variable "connector_description" {
 
 variable "msk_cluster_name" {
   type    = string
+  default = "mskcluster"
 }
+
+variable "region" {
+  type = string
+  default = "eu-central-1"
+}
+
+# variable "connector_configuration" {
+#   description = "Configuration for the connector"
+#   type        = map(any)
+# }
 
 variable "iam_role_name" {
   type    = string
+  default = "super_user_role"
 }
 
 variable "distribution_url" {
   type = string
+  default = "https://d1i4a15mxbxib1.cloudfront.net/api/plugins/confluentinc/kafka-connect-s3/versions/10.5.1/confluentinc-kafka-connect-s3-10.5.1.zip"
 }
 
 variable "distribution_version" {
   type = string
+  default = "10.5.1"
 }
 
 variable "distribution_content_type" {
   type = string
+  default = "zip"
 }
 
 variable "kafkaconnect_version" {
