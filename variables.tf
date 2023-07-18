@@ -1,6 +1,5 @@
 variable "connector_name" {
-  type    = string
-  default = "s3sink"
+  type = string
 }
 
 variable "connector_description" {
@@ -9,58 +8,49 @@ variable "connector_description" {
 }
 
 variable "msk_cluster_name" {
-  type    = string
-  default = "mskcluster"
+  type = string
+}
+
+variable "s3_bucket_distributions" {
+  type = string
 }
 
 variable "region" {
   type = string
-  default = "eu-central-1"
 }
 
-# variable "connector_configuration" {
-#   description = "Configuration for the connector"
-#   type        = map(any)
-# }
+variable "connector_configuration" {
+  description = "Configuration for the connector"
+  type = object({
+    connector_class                   = string
+    s3_region                         = string
+    format_class                      = string
+    flush_size                        = string
+    schema_compatibility              = string
+    partioner_class                   = string
+    storage_class                     = string
+    s3_bucket_name                    = string
+    tasks_max                         = string
+  })
+}
+
 
 variable "iam_role_name" {
-  type    = string
-  default = "super_user_role"
+  type = string
 }
 
 variable "distribution_url" {
   type = string
-  default = "https://d1i4a15mxbxib1.cloudfront.net/api/plugins/confluentinc/kafka-connect-s3/versions/10.5.1/confluentinc-kafka-connect-s3-10.5.1.zip"
 }
 
 variable "distribution_version" {
   type = string
-  default = "10.5.1"
 }
 
 variable "distribution_content_type" {
   type = string
-  default = "zip"
 }
 
 variable "kafkaconnect_version" {
-  type    = string
-  default = "2.7.1"
+  type = string
 }
-
-# variable "" {
-#   type = object(any)
-#   default = {
-#     "connector.class"      = "io.confluent.connect.s3.S3SinkConnector"
-#     "s3.region"            = aws_s3_bucket.bucket.region
-#     "format.class"         = "io.confluent.connect.s3.format.json.JsonFormat"
-#     "flush.size"           = "1"
-#     "schema.compatibility" = "NONE"
-#     "partioner.class"      = "io.confluent.connect.storage.partitioner.DefaultPartitioner"
-#     "storage.class"        = "io.confluent.connect.s3.storage.S3Storage"
-#     "s3.bucket.name"       = aws_s3_bucket.bucket.id
-#     "tasks.max"            = "1"
-#     "topics"               = data.external.kafka_topics_list.result["output"]
-#     "confluent.topic.bootstrap.servers" = data.aws_msk_cluster.msk_cluster.bootstrap_brokers_sasl_iam
-#   }
-# }
